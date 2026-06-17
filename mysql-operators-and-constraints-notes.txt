@@ -1,0 +1,97 @@
+=======================================================================
+                   MYSQL: OPERATORS, AUTO_INCREMENT & CONSTRAINTS
+=======================================================================
+
+1. LIKE OPERATOR (PATTERN MATCHING)
+-----------------------------------------------------------------------
+* Definition: The LIKE operator is used in a WHERE clause to search for a 
+  specified pattern in a column.
+* Wildcard Characters:
+  - Percent Sign (%): Represents zero, one, or multiple characters.
+  - Underscore Sign (_): Represents a single, specific character.
+  - Combination: Both wildcards can be combined to form precise expressions.
+
+* Pattern Matching Syntaxes & Examples:
+  - WHERE Name LIKE 's%'   -> Finds any values that start with "s".
+  - WHERE Name LIKE '%h'   -> Finds any values that end with "h".
+  - WHERE Name LIKE '%sh%' -> Finds any values that have "sh" in any position.
+  - WHERE Name LIKE '_a%'  -> Finds any values that have "a" in the second position.
+  - WHERE Name LIKE 's_%'  -> Finds any values that start with "s" and are at 
+                              least 2 characters in length.
+  - WHERE Name LIKE 's__%' -> Finds any values that start with "s" and are at 
+                              least 3 characters in length.
+  - WHERE Name LIKE 's%m'  -> Finds any values that start with "s" and end with "m".
+
+* Syntax Query:
+  SELECT * FROM empdata WHERE name LIKE 'a%';
+
+
+2. IN OPERATOR
+-----------------------------------------------------------------------
+* Definition: Allows you to specify multiple values within a WHERE clause. It 
+  serves as an efficient shorthand for multiple nested OR conditions.
+
+* Queries:
+  SELECT * FROM empdata WHERE State IN ('maharashtra', 'up', 'mp');
+  SELECT * FROM empdata WHERE State NOT IN ('mp', 'up');
+
+
+3. BETWEEN OPERATOR
+-----------------------------------------------------------------------
+* Definition: Selects values within a specified range. The matching values can 
+  consist of numbers, text characters, or date ranges.
+* Range Integrity: The BETWEEN operator is inclusive: the begin and end evaluation 
+  values are included in the output.
+
+* Queries:
+  SELECT * FROM employeerecord WHERE age BETWEEN 10 AND 20;
+  SELECT * FROM employeerecord WHERE age NOT BETWEEN 100 AND 200;
+
+
+4. AUTO_INCREMENT KEYWORD
+-----------------------------------------------------------------------
+* Definition: Automatically generates a unique, sequential number whenever a 
+  new record is inserted into a table.
+* Primary Key Pairing: This is frequently applied to the primary key field so that 
+  unique row identifiers are generated automatically.
+* Defaults: By default, the starting value for AUTO_INCREMENT is 1, and it 
+  increments by 1 for each subsequent record.
+
+
+5. DATE DATA TYPES
+-----------------------------------------------------------------------
+MySQL provides specialized data formats to manage time-sensitive entries:
+* DATE      : Format: YYYY-MM-DD (Example: 2024-12-23)
+* DATETIME  : Format: YYYY-MM-DD HH:MI:SS (Example: 2024-09-26 12:25:14)
+* TIMESTAMP : Format: YYYY-MM-DD HH:MI:SS (Stores time zones dynamically)
+* YEAR      : Format: YYYY or YY (Example: 2024 or 24)
+
+
+6. UNIQUE KEY CONSTRAINT
+-----------------------------------------------------------------------
+* Definition: Enforces a guarantee that all values stored inside a column are distinct.
+* Unique vs. Primary Key:
+  - A PRIMARY KEY automatically incorporates a UNIQUE constraint internally.
+  - Limits: A table can contain multiple UNIQUE columns, but it is strictly 
+    limited to exactly ONE PRIMARY KEY constraint.
+
+
+=======================================================================
+                         CODE REFERENCE & EXAMPLES
+=======================================================================
+
+-- Creates a new table utilizing AUTO_INCREMENT, PRIMARY KEY, UNIQUE, and DATE types:
+CREATE TABLE student(
+    stud_id INT AUTO_INCREMENT PRIMARY KEY, 
+    name VARCHAR(40), 
+    bench_no INT UNIQUE,
+    sjoin_date DATE
+);
+
+-- Inserts a record without passing an id (AUTO_INCREMENT assigns the id value automatically):
+INSERT INTO student(name, bench_no, sjoin_date) VALUES ('om', 12, '2024-09-23');
+
+-- Alters the table schema to reset or force the next auto-increment sequence value to 101:
+ALTER TABLE student AUTO_INCREMENT = 101;
+
+=======================================================================
