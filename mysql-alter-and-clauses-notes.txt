@@ -1,0 +1,129 @@
+=======================================================================
+                   MYSQL: ALTER, CLAUSES, AND FUNCTIONS
+=======================================================================
+
+1. ALTER TABLE STATEMENT
+-----------------------------------------------------------------------
+* Definition: The ALTER TABLE statement is used to add, delete, or modify 
+  columns in an existing table. It is also used to add and drop various 
+  constraints on an existing table.
+
+* Common Operations & Queries:
+  1> Add a new column: 
+     ALTER TABLE employee ADD country varchar(50);
+  2> Modify an existing column data type or constraint: 
+     ALTER TABLE employee MODIFY mob_numb int;
+  3> Drop a column: 
+     ALTER TABLE employee DROP COLUMN email;
+  4> Rename a column: 
+     ALTER TABLE employee RENAME COLUMN email TO gmail;
+  5> Rename an entire table: 
+     ALTER TABLE employee RENAME TO employeeRecord;
+
+
+2. ORDER BY KEYWORD
+-----------------------------------------------------------------------
+* Definition: Used to sort the result-set in either ascending or descending 
+  order.
+* Default Behavior: It sorts records in ascending order by default.
+* Keywords:
+  - ASC  : Explicitly sorts records in ascending order.
+  - DESC : Sorts records in descending order.
+
+* Queries:
+  SELECT * FROM employeerecord ORDER BY salary ASC;
+  SELECT * FROM employeerecord ORDER BY salary DESC;
+
+
+3. LIMIT & OFFSET CLAUSES
+-----------------------------------------------------------------------
+* LIMIT Clause: Specifies the maximum number of records to return. This is 
+  highly useful on large tables with thousands of records to prevent 
+  performance degradation.
+  Example:
+  SELECT * FROM Employee LIMIT 3;
+
+* OFFSET Clause: Allows you to skip a specified number of rows before beginning 
+  to return data. To select records 4 through 6 (inclusive), you skip the first 
+  3 records and limit the result to 3:
+  Example:
+  SELECT * FROM Employee LIMIT 3 OFFSET 3;
+
+
+4. SQL COMMENTS
+-----------------------------------------------------------------------
+* Single-Line Comments: Start with '--'. Any text between '--' and the end of 
+  the line is ignored by the compiler.
+  Example:
+  -- WHERE City='Berlin';
+
+* Multi-Line Comments: Start with '/*' and end with '*/'. Any text within 
+  these boundaries is ignored.
+  Example:
+  /* Select all the columns
+     of all the records
+     in the Employee table: */
+
+
+5. ALIASES
+-----------------------------------------------------------------------
+* Definition: Aliases are used to give a table or a column a temporary name 
+  to improve readability.
+* Scope: The alias only exists for the duration of that specific query execution.
+* Keyword: Created using the 'AS' keyword.
+* Query:
+  SELECT email AS employee_email FROM employeerecord;
+
+
+6. AGGREGATE FUNCTIONS
+-----------------------------------------------------------------------
+* Definition: Functions that perform a calculation on a set of values and 
+  return a single summary value. They are frequently paired with the 
+  GROUP BY clause, which groups rows with matching criteria.
+* Important Behavior: All aggregate functions ignore NULL values except 
+  for COUNT().
+
+* Standard Aggregate Functions:
+  - MIN()   : Returns the smallest value of the selected column.
+  - MAX()   : Returns the largest value of the selected column.
+  - COUNT() : Returns the number of rows matching a specified criterion.
+  - AVG()   : Returns the average value of a numeric column.
+  - SUM()   : Returns the total sum of a numeric column.
+
+
+7. CONSTRAINTS & NULL CHECKS
+-----------------------------------------------------------------------
+
+A. PRIMARY KEY Constraint
+* Definition: Uniquely identifies each record in a table.
+* Rules: Must contain UNIQUE values and cannot contain NULL values. A table 
+  can have only ONE primary key, which can consist of single or multiple fields.
+* Query:
+  CREATE TABLE employee(emp_id INT PRIMARY KEY, name VARCHAR(30), mob_numb VARCHAR(20) NOT NULL, salary INT(20));
+
+B. NOT NULL Constraint
+* Definition: Enforces a column to reject NULL values. This forces the field 
+  to always hold a valid value during row insertion or updating.
+* Query Examples:
+  CREATE TABLE employee(emp_id INT PRIMARY KEY, name VARCHAR(30), mob_numb VARCHAR(20) NOT NULL, salary INT(20));
+  INSERT INTO employee VALUES(105, 'NULL', '23453453456', 350000);
+
+C. Checking for NULL Values
+* Core Concept: A NULL value indicates that a field was left completely 
+  blank during record creation. It is distinct from a zero value or an empty 
+  string filled with spaces.
+* Queries:
+  SELECT * FROM employee WHERE email IS NOT NULL;
+  SELECT * FROM employee WHERE email IS NULL;
+
+
+8. LOGICAL OPERATORS
+-----------------------------------------------------------------------
+Used to filter records based on multiple conditional expressions:
+* AND : Returns a record if all conditions separated by AND are TRUE.
+  Query: SELECT * FROM employee WHERE emp_id = 101 AND name = 'ritik';
+* OR  : Returns records if any of the conditions separated by OR are TRUE.
+  Query: SELECT * FROM employee WHERE emp_id = 101 OR name = 'sai';
+* NOT : Displays a record if the condition specified after NOT is FALSE.
+  Query: SELECT * FROM employee WHERE NOT salary = 300000;
+=======================================================================
