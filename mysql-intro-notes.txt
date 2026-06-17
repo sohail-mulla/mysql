@@ -1,0 +1,109 @@
+=======================================================================
+                   MYSQL: INTRO & BASIC COMMANDS
+=======================================================================
+
+1. INTRODUCTION TO MYSQL
+-----------------------------------------------------------------------
+* Definition: MySQL is a popular open-source Relational Database 
+  Management System (RDBMS) used to manage and organize structured data.
+* Functionality: It allows users to store, retrieve, modify, and manage 
+  data efficiently using Structured Query Language (SQL).
+
+* Key Features:
+  - Relational Database Management System (RDBMS) architecture.
+  - Open-source and free to use.
+  - Ideal for handling both small-scale and large-scale applications.
+  - Highly optimized for speed, reliability, scalability, and ease of use.
+  - Cross-platform support (runs seamlessly on Windows, Linux, macOS).
+
+
+2. CORE ARCHITECTURAL COMPONENTS
+-----------------------------------------------------------------------
+* Database: A structured logical container used to group, secure, and store 
+  related tables containing the actual application data.
+* Table: A collection of related data entries organized in a strict grid of 
+  rows and columns.
+  - Columns: Represent individual data fields or attributes (e.g., ID, Name).
+  - Rows: Represent distinct, complete data records or entries.
+
+
+3. RELATIONAL (RDBMS) VS. NON-RELATIONAL (NOSQL) DATABASES
+-----------------------------------------------------------------------
+
+A. Relational Database Management System (RDBMS)
+* Definition: RDBMS is the software basis for all modern database systems 
+  including MySQL, Microsoft SQL Server, Oracle, and Microsoft Access.
+* Structure: Uses a rigid, predefined tabular structure (rows and columns).
+* Characteristics: Relies on schemas and enforces strict relationships 
+  between tables using constraints like primary keys and foreign keys.
+* Examples: MySQL, PostgreSQL, Oracle.
+
+
+
+B. Non-Relational Database (NoSQL)
+* Structure: Completely bypasses the tabular model. Data can be stored as 
+  documents, key-value pairs, graphs, or wide-columns.
+* Characteristics: Schema-less or flexible schema design, meaning data 
+  structures can vary freely between separate records.
+* Examples: MongoDB (Document), Redis (Key-Value), Neo4j (Graph), Cassandra.
+
+
+4. INTRO TO SQL (STRUCTURED QUERY LANGUAGE)
+-----------------------------------------------------------------------
+SQL is the standard programming language used to communicate directly with 
+a database. It enables users to perform the following operations:
+* Create database instances and table structures.
+* Insert data into tables.
+* Retrieve specific data using SELECT queries.
+* Update existing data records.
+* Delete outdated data entries from tables.
+
+
+=======================================================================
+                         MYSQL QUERY REFERENCE
+=======================================================================
+
+A. Basic Environment Queries:
+-----------------------------------------------------------------------
+show databases;         -- Displays all available databases on the server
+create database animal; -- Creates a new database named 'animal'
+use batch1182;          -- Switches context to the database named 'batch1182'
+show tables;            -- Displays all tables present inside the current database
+drop database batch1182;-- Deletes the database 'batch1182' along with all its data
+
+B. System Information & Metadata Functions:
+-----------------------------------------------------------------------
+select version();   -- Returns the current installed version of MySQL
+select curtime();   -- Returns the current system time
+select database();  -- Returns the name of the currently active database
+select user();      -- Returns the current active user login details
+select curdate();   -- Returns the current system date
+select now();       -- Returns the current combined date and time stamps
+
+C. Table Examination & CRUD Operations:
+-----------------------------------------------------------------------
+desc student;        -- Describes the schema structure of the 'student' table
+select * from student;-- Fetches all records and columns from the 'student' table
+
+-- Creates a new table named 'employee' with structured columns:
+create table employee(id int, name varchar(30), address varchar(50));
+
+-- Inserts a single complete record into the employee table:
+insert into employee values(1, 'shubham', 'pune');
+
+-- Inserts multiple records into specific columns simultaneously:
+insert into employee(id, name, address) values
+(2, 'abhishek', 'pune'),
+(3, 'nisha', 'nadurbar'),
+(4, 'lochana', 'jalgaon');
+
+select * from employee; -- Reads and displays all populated records inside employee
+
+-- Updates the address value for a specific employee row matched by ID:
+update employee set address = 'pune' where id = 2;
+
+-- Deletes a specific record from the table based on the conditional ID:
+delete from employee where id = 1;
+
+exit; -- Safely closes the active MySQL command line interface connection
+=======================================================================
