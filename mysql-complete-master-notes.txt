@@ -1,0 +1,275 @@
+=======================================================================
+                   MYSQL FULL COURSE MASTER COMPILATION
+=======================================================================
+
+1. INTRODUCTION TO MYSQL & RDBMS
+-----------------------------------------------------------------------
+* Definition: MySQL is an open-source Relational Database Management 
+  System (RDBMS) used to manage and organize structured data using SQL.
+* Key Features: Free, cross-platform, fast, reliable, and scalable.
+* Database: A logical container used to group and store related tables.
+* Table: Structured entries organized into vertical attributes (Columns) 
+  and horizontal records (Rows).
+
+* Architectural Variations:
+  - RDBMS (Relational): Predefined schemas, tabular structure, relies on strict 
+    relationships (e.g., MySQL, PostgreSQL, Oracle).
+  - NoSQL (Non-Relational): Schema-less, flexible structures storing data as 
+    documents, key-value pairs, graphs, or wide-columns (e.g., MongoDB, Redis).
+
+
+2. ENVIRONMENT SETUP & BASE CRUD COMMANDS
+-----------------------------------------------------------------------
+show databases;          -- Lists available databases on server
+create database animal;  -- Allocates a new database namespace
+use batch1182;           -- Switches current query context
+show tables;             -- Shows existing tables in the active database
+drop database batch1182; -- Destroys database structure and all data contents
+
+* System Information Functions:
+  select version();  -- Returns current engine release version
+  select curtime();  -- Returns active system clock time
+  select database(); -- Returns currently referenced database schema
+  select user();     -- Returns executing account user identity
+  select curdate();  -- Returns operational system calendar date
+  select now();      -- Returns integrated date and time stamp
+
+* Basic Table Alterations & Row Actions:
+  desc student;         -- Shows structured definition of table
+  select * from student;-- Retrieves all populated rows
+
+  create table employee(id int, name varchar(30), address varchar(50));
+  insert into employee values(1, 'shubham', 'pune');
+  insert into employee(id, name, address) values
+  (2, 'abhishek', 'pune'),
+  (3, 'nisha', 'nadurbar'),
+  (4, 'lochana', 'jalgaon');
+
+  update employee set address = 'pune' where id = 2;
+  delete from employee where id = 1;
+  exit;
+
+
+3. DATA CONSTRAINTS & DATA TYPES
+-----------------------------------------------------------------------
+* PRIMARY KEY : Uniquely flags each row. Cannot contain NULLs. One per table.
+* NOT NULL    : Forces column to always hold an active value.
+* UNIQUE      : Guarantees distinct values across all column records.
+* AUTO_INCREMENT: Evaluates and auto-generates sequential row integers.
+
+* Checking for Null Entities:
+  - NULL means a field was left entirely blank. It is not equivalent to zero.
+  - Query: select * from employee where email IS NULL;
+  - Query: select * from employee where email IS NOT NULL;
+
+* Core Date Structures:
+  - DATE      : YYYY-MM-DD
+  - DATETIME  : YYYY-MM-DD HH:MI:SS
+  - TIMESTAMP : YYYY-MM-DD HH:MI:SS (Enforces regional timezone sync)
+  - YEAR      : YYYY or YY
+
+
+4. CLAUSES, SORTING, AND DATA CONTROLS
+-----------------------------------------------------------------------
+* ALTER TABLE: Structural modification command.
+  - ADD    : alter table employee add country varchar(50);
+  - MODIFY : alter table employee modify mob_numb int;
+  - DROP   : alter table employee drop column email;
+  - RENAME : alter table employee rename column email to gmail;
+  - TABLE  : alter table employee rename to employeeRecord;
+
+* ORDER BY: Sorts row results. Defaults to Ascending order (ASC).
+  - select * from employeerecord order by salary desc;
+
+* LIMIT & OFFSET: Controls record stream sizing to avoid performance issues.
+  - select * from Employee limit 3 offset 3; -- Skips 3, returns rows 4-6
+
+* ALIASES (AS): Temporary query tags to maximize output column readability.
+  - select email as employee_email from employeerecord;
+
+* SQL COMMENTS:
+  - Single Line : -- Comment text here
+  - Multi-line  : /* Comment block text here */
+
+
+5. LOGICAL AND CONDITIONAL OPERATORS
+-----------------------------------------------------------------------
+* AND / OR / NOT: Standard conditional data filtering gates.
+  - select * from employee where emp_id = 101 and name = 'ritik';
+  - select * from employee where not salary = 300000;
+
+* IN Operator: Compact alternative to continuous nested OR clauses.
+  - select * from empdata where State in ('maharashtra', 'up', 'mp');
+
+* BETWEEN Operator: Bound checking mechanism (Inclusive of end constraints).
+  - select * from employeerecord where age between 10 and 20;
+
+* LIKE Operator: Complex pattern matching via Wildcard markers.
+  - '%' represents zero or multiple characters.
+  - '_' represents exactly one character.
+  - Examples:
+    's%'   -> Values starting with "s"
+    '%h'   -> Values ending with "h"
+    '%sh%' -> Values containing "sh" at any position
+    '_a%'  -> Values containing "a" precisely in the second character position
+
+
+6. ADVANCED AGGREGATIONS, GROUP BY & SUBQUERIES
+-----------------------------------------------------------------------
+* Aggregate Functions: Execute computations on columns to yield a single total.
+  - MIN(), MAX(), COUNT(), AVG(), SUM() (All drop null blocks from calculation).
+
+* GROUP BY & HAVING:
+  - GROUP BY partitions rows sharing identical property values into distinct sets.
+  - HAVING provides conditional filtering strictly applied to aggregated sets.
+  - Query: select CourseName, count(CourseName) as aaa from tkastd group by CourseName having avg(totalFees) > 45000;
+
+* Subqueries: Formulating nested inner-level queries to serve parent evaluations.
+  - Syntax:
+    select name, salary from employees where salary = (select max(salary) from employees);
+
+
+7. RELATIONAL INTEGRITY & MULTI-TABLE JOINS
+-----------------------------------------------------------------------
+* FOREIGN KEY: A field referencing a Primary Key in another table, enforcing 
+  referential constraints between Parent and Child entities.
+
+
+
+* Join Typologies:
+  1. INNER JOIN  : Extracts rows with corresponding match metrics across both tables.
+  2. LEFT JOIN   : Pulls every record from left table plus matched right fragments.
+  3. RIGHT JOIN  : Pulls every record from right table plus matched left fragments.
+  4. FULL OUTER  : Synthesizes complete sets, pairing matches and outputting null blanks for mismatches.
+  5. CROSS JOIN  : Produces Cartesian Product (Every left row mapped to every right row).
+  6. SELF JOIN   : Pairs a table to itself using temporary aliases to explore structural hierarchies.
+
+
+=======================================================================
+                         JOIN TESTING SCRIPTS
+=======================================================================
+
+-- Schema Definition
+create table departments (
+    dept_id int primary key,
+    dept_name varchar(50)
+);
+
+create table employees (
+    emp_id int primary key,
+    name varchar(50),
+    dept_id int,
+    manager_id int,
+    foreign key (dept_id) references departments(dept_id)
+);
+
+-- Data Seeding
+insert into departments (dept_id, dept_name) values 
+(1, 'HR'), (2, 'Engineering'), (3, 'Finance'), (4, 'Marketing');
+
+insert into employees (emp_id, name, dept_id, manager_id) values 
+(101, 'Alice', 1, null),
+(102, 'Bob', 2, 101),
+(103, 'Charlie', 2, 102),
+(104, 'David', 3, null),
+(105, 'Eve', null, 101);
+
+=======================================================================
+ MYSQL JOIN QUERIES
+
+
+1. INNER JOIN
+-----------------------------------------------------------------------
+* Description: Selects records that have matching values in both tables.
+
+Query:
+SELECT employees.name, departments.dept_name
+FROM employees
+INNER JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+
+2. LEFT JOIN
+-----------------------------------------------------------------------
+* Description: Returns all records from the left table (employees), and 
+  the matched records from the right table (departments).
+
+Query:
+SELECT employees.name, departments.dept_name
+FROM employees
+LEFT JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+
+3. RIGHT JOIN
+-----------------------------------------------------------------------
+* Description: Returns all records from the right table (departments), and 
+  the matched records from the left table (employees).
+
+Query:
+SELECT employees.name, departments.dept_name
+FROM employees
+RIGHT JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+
+4. FULL OUTER JOIN
+-----------------------------------------------------------------------
+* Description: Returns all records when there is a match in either left 
+  or right table records.
+
+Query:
+SELECT employees.name, departments.dept_name
+FROM employees
+FULL OUTER JOIN departments
+ON employees.dept_id = departments.dept_id;
+
+
+5. CROSS JOIN
+-----------------------------------------------------------------------
+* Description: Returns the Cartesian product of rows from both tables.
+
+Query:
+SELECT employees.name, departments.dept_name
+FROM employees
+CROSS JOIN departments;
+
+
+6. SELF JOIN
+-----------------------------------------------------------------------
+* Description: A regular join used to join a table with itself, useful 
+  for comparing rows within the same table hierarchy.
+
+Query:
+SELECT e1.name AS Employee, e2.name AS Manager
+FROM employees e1
+INNER JOIN employees e2
+ON e1.manager_id = e2.emp_id;
+
+=======================================================================
+
+
+=======================================================================
+                     SUMMARY ENGINE ARCHITECTURE
+=======================================================================
+
+CONSTRAINTS SUMMARY:
+* NOT NULL       -> Inhibits NULL persistence
+* UNIQUE         -> Eradicates redundancy instances
+* PRIMARY KEY    -> Composite validator (Unique + Not Null)
+* FOREIGN KEY    -> Maps relationships to outer structures
+* CHECK          -> Validates business expressions
+* DEFAULT        -> Fills in backup data when inputs are missing
+* AUTO_INCREMENT -> Iterates index integers dynamically
+
+CLAUSE RUNTIME EXECUTION SEQUENCING:
+1. SELECT     -> Specifies projection target attributes
+2. FROM       -> Targets base dataset source tables
+3. JOIN       -> Aggregates secondary reference entities
+4. WHERE      -> Applies localized base-level filters
+5. GROUP BY   -> Partitions structural attribute arrays
+6. HAVING     -> Evaluates aggregated set conditions
+7. DISTINCT   -> Suppresses duplicated result values
+8. ORDER BY   -> Adjusts sorted viewing directions
+9. LIMIT      -> Constrains row batch limits
+=======================================================================
